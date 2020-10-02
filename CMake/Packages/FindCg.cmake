@@ -45,7 +45,7 @@ use_pkgconfig(Cg_PKGC Cg)
 findpkg_framework(Cg)
 
 find_path(Cg_INCLUDE_DIR NAMES cg.h HINTS ${Cg_FRAMEWORK_INCLUDES} ${Cg_INC_SEARCH_PATH} ${Cg_PKGC_INCLUDE_DIRS} PATH_SUFFIXES Cg)
-
+message(STATUS "Cg_HOME: ${Cg_HOME}")
 if (CMAKE_CL_64)
   set (Cg_LIB_SEARCH_PATH ${Cg_HOME}/lib.x64 ${ENV_Cg_LIB64_PATH}
     ${ENV_Cg_HOME}/lib.x64 ${Cg_LIB_SEARCH_PATH})

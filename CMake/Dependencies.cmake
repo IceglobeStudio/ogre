@@ -197,30 +197,31 @@ if(OGRE_BUILD_DEPENDENCIES AND NOT EXISTS ${OGREDEPS_PATH})
             --build ${PROJECT_BINARY_DIR}/SDL2-build ${BUILD_COMMAND_OPTS})
     endif()
 
-    if(MSVC OR MINGW) # other platforms dont need this
-      message(STATUS "Building Assimp")
-      file(DOWNLOAD
-          https://github.com/assimp/assimp/archive/v5.0.1.tar.gz
-          ${PROJECT_BINARY_DIR}/v5.0.1.tar.gz)
-      execute_process(COMMAND ${CMAKE_COMMAND}
-          -E tar xf v5.0.1.tar.gz WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
-      execute_process(COMMAND ${BUILD_COMMAND_COMMON}
-          -DZLIB_ROOT=${OGREDEPS_PATH}
-          -DBUILD_SHARED_LIBS=OFF
-          -DASSIMP_BUILD_TESTS=OFF
-          -DASSIMP_NO_EXPORT=TRUE
-          -DASSIMP_BUILD_OGRE_IMPORTER=OFF
-          -DASSIMP_BUILD_ASSIMP_TOOLS=OFF
-          -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE # this will be linked into a shared lib
-          ${PROJECT_BINARY_DIR}/assimp-5.0.1
-          WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/assimp-5.0.1)
-      execute_process(COMMAND ${CMAKE_COMMAND}
-        --build ${PROJECT_BINARY_DIR}/assimp-5.0.1 ${BUILD_COMMAND_OPTS})
-      # RelWithDebInfo has Release ABI
-      if(NOT OGRE_DEBUG_MODE)
-        file(REMOVE ${OGREDEPS_PATH}/lib/cmake/assimp-5.0/assimpTargets-debug.cmake)
-      endif()
-    endif()
+    # TODO: Waiting on https://github.com/assimp/assimp/issues/3259
+    # if(MSVC OR MINGW) # other platforms dont need this
+    #   message(STATUS "Building Assimp")
+    #   file(DOWNLOAD
+    #       https://github.com/assimp/assimp/archive/v5.0.1.tar.gz
+    #       ${PROJECT_BINARY_DIR}/v5.0.1.tar.gz)
+    #   execute_process(COMMAND ${CMAKE_COMMAND}
+    #       -E tar xf v5.0.1.tar.gz WORKING_DIRECTORY ${PROJECT_BINARY_DIR})
+    #   execute_process(COMMAND ${BUILD_COMMAND_COMMON}
+    #       -DZLIB_ROOT=${OGREDEPS_PATH}
+    #       -DBUILD_SHARED_LIBS=OFF
+    #       -DASSIMP_BUILD_TESTS=OFF
+    #       -DASSIMP_NO_EXPORT=TRUE
+    #       -DASSIMP_BUILD_OGRE_IMPORTER=OFF
+    #       -DASSIMP_BUILD_ASSIMP_TOOLS=OFF
+    #       -DCMAKE_POSITION_INDEPENDENT_CODE=TRUE # this will be linked into a shared lib
+    #       ${PROJECT_BINARY_DIR}/assimp-5.0.1
+    #       WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/assimp-5.0.1)
+    #   execute_process(COMMAND ${CMAKE_COMMAND}
+    #     --build ${PROJECT_BINARY_DIR}/assimp-5.0.1 ${BUILD_COMMAND_OPTS})
+    #   # RelWithDebInfo has Release ABI
+    #   if(NOT OGRE_DEBUG_MODE)
+    #     file(REMOVE ${OGREDEPS_PATH}/lib/cmake/assimp-5.0/assimpTargets-debug.cmake)
+    #   endif()
+    # endif()
 endif()
 
 #######################################################################
